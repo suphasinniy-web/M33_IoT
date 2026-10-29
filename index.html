@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สุพศิน นิยมกุล | My Linguistic Journey</title>
+<meta name="description" content="พอร์ตโฟลิโอส่วนตัวของสุพศิน นิยมกุล นักเรียนชั้น ม.3 สมัครเรียนต่อ ม.4 สายมนุษยศาสตร์ ภาษาต่างประเทศ">
+
+<!-- ============================================================
+     FONTS: Noto Serif Thai (หัวข้อ) / Noto Sans Thai (เนื้อหา) / IBM Plex Mono (ป้ายกำกับเล็กๆ)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // ตั้งค่าธีมสี/ฟอนต์ของ Tailwind ให้ตรงกับ Design System ของโปรเจกต์
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1E2A47',        // น้ำเงินเข้ม — หลัก (ความน่าเชื่อถือทางวิชาการ)
+          inkdark: '#141C30',    // น้ำเงินเข้มกว่า สำหรับพื้นหลังส่วนมืด
+          parchment: '#F3EEE3',  // พื้นหลังหลัก โทนกระดาษ/หนังสือเดินทาง
+          parchdark: '#E7DFCC',  // เส้นขอบ/พื้นรอง โทนกระดาษเข้ม
+          sage: '#5F7A61',       // เขียวเซจ — soft skills / ความหลากหลายทางวัฒนธรรม
+          amber: '#E2984A',      // ส้มอำพัน — accent / CTA / ความคิดสร้างสรรค์
+          terracotta: '#C1553B', // แดงอิฐ — ใช้เฉพาะจุด (ตราประทับ)
+          textink: '#262220',    // สีตัวอักษรหลัก
+        },
+        fontFamily: {
+          serifthai: ['"Noto Serif Thai"', 'serif'],
+          sansthai: ['"Noto Sans Thai"', 'sans-serif'],
+          mono: ['"IBM Plex Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  /* ============================================================
+     CUSTOM CSS: ส่วนที่ Tailwind utility ทำไม่ได้ตรงๆ
+     ============================================================ */
+  html { scroll-behavior: smooth; }
+  body { background-color: #F3EEE3; }
+
+  /* เส้นประแบบขอบพาสปอร์ต ใช้ทั่วเว็บ */
+  .passport-border {
+    border: 1.5px dashed rgba(30, 42, 71, 0.35);
+  }
+
+  /* ตราประทับพาสปอร์ตประดับ ส่วน About Me */
+  .seal-stamp {
+    background: radial-gradient(circle at 50% 40%, rgba(30,42,71,0.05), transparent 70%);
+    box-shadow: 0 0 0 1.5px rgba(30,42,71,0.15), 0 20px 40px -24px rgba(20,28,48,0.35);
+  }
+
+  /* แผงตราประทับด้านบนการ์ดผลงาน (แทนที่รูปภาพ) */
+  .stamp-panel {
+    height: 7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 14px);
+  }
+  .stamp-code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    padding: 0.5rem 1.1rem;
+    border: 2px dashed currentColor;
+    border-radius: 9999px;
+  }
+
+  /* เอฟเฟกต์การ์ดผลงานเอียงเล็กน้อยแบบสุ่ม สลับซ้าย-ขวา */
+  .tilt-l { transform: rotate(-1.4deg); }
+  .tilt-r { transform: rotate(1.4deg); }
+  .tilt-l:hover, .tilt-r:hover { transform: rotate(0deg) translateY(-4px); }
+  .project-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .project-card:hover { box-shadow: 0 24px 40px -24px rgba(20,28,48,0.45); }
+
+  /* เส้นทางการเรียนรู้ (Journey Path) ในส่วน Skills */
+  .journey-line {
+    background-image: repeating-linear-gradient(90deg, rgba(30,42,71,0.4) 0 10px, transparent 10px 20px);
+    height: 2px;
+  }
+  .journey-node-dot {
+    width: 16px; height: 16px; border-radius: 9999px;
+    border: 3px solid #F3EEE3;
+    box-shadow: 0 0 0 1.5px rgba(30,42,71,0.5);
+  }
+
+  /* คำทักทายสลับภาษาใน Hero */
+  .greeting-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .greeting-word.show { opacity: 1; transform: translateY(0); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* จุดระดับทักษะ (แทน progress bar) */
+  .level-dot { width: 9px; height: 9px; border-radius: 9999px; background: rgba(30,42,71,0.15); }
+  .level-dot.filled { background: #1E2A47; }
+
+  /* โฟกัสคีย์บอร์ดให้มองเห็นชัดเจนเสมอ */
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid #E2984A;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ผู้ใช้ที่ตั้งค่า reduce motion ไว้ ให้ตัดอนิเมชันทั้งหมด */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, .greeting-word, .project-card, .tilt-l, .tilt-r {
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
+
+  #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  #mobile-menu.open { max-height: 400px; }
+</style>
+</head>
+
+<body class="font-sansthai text-textink bg-parchment">
+
+<!-- ============================================================
+     SECTION: HEADER & NAVIGATION
+     ============================================================ -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 bg-ink/95 backdrop-blur text-parchment shadow-lg shadow-black/10">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16">
+    <a href="#home" class="font-mono text-lg tracking-widest text-amber">ส.น.</a>
+
+    <!-- เมนูสำหรับจอใหญ่ -->
+    <nav class="hidden md:flex items-center gap-8 font-sansthai text-sm tracking-wide">
+      <a href="#home" class="hover:text-amber transition-colors">หน้าแรก</a>
+      <a href="#about" class="hover:text-amber transition-colors">เกี่ยวกับผม</a>
+      <a href="#skills" class="hover:text-amber transition-colors">ทักษะ</a>
+      <a href="#projects" class="hover:text-amber transition-colors">ผลงาน</a>
+      <a href="#contact" class="hover:text-amber transition-colors px-4 py-2 border border-amber rounded-full text-amber">ติดต่อผม</a>
+    </nav>
+
+    <!-- ปุ่ม Hamburger สำหรับมือถือ -->
+    <button id="menu-toggle" aria-label="เปิดเมนู" aria-expanded="false" class="md:hidden flex flex-col gap-1.5 p-2">
+      <span class="w-6 h-0.5 bg-parchment"></span>
+      <span class="w-6 h-0.5 bg-parchment"></span>
+      <span class="w-6 h-0.5 bg-parchment"></span>
+    </button>
+  </div>
+
+  <!-- เมนูมือถือ (พับ/ขยาย) -->
+  <nav id="mobile-menu" class="md:hidden bg-inkdark px-5">
+    <a href="#home" class="block py-3 border-b border-white/10">หน้าแรก</a>
+    <a href="#about" class="block py-3 border-b border-white/10">เกี่ยวกับผม</a>
+    <a href="#skills" class="block py-3 border-b border-white/10">ทักษะ</a>
+    <a href="#projects" class="block py-3 border-b border-white/10">ผลงาน</a>
+    <a href="#contact" class="block py-3 text-amber">ติดต่อผม</a>
+  </nav>
+</header>
+
+<!-- ============================================================
+     SECTION: HERO — ส่วนต้อนรับ
+     ============================================================ -->
+<section id="home" class="relative min-h-screen flex items-center bg-ink text-parchment overflow-hidden pt-16">
+
+  <!-- ลวดลายเส้นทางเดินทางประดับพื้นหลัง (SVG แต้มจุด/เส้นประ สื่อถึงการเชื่อมวัฒนธรรม) -->
+  <svg class="absolute inset-0 w-full h-full opacity-[0.15] pointer-events-none" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path d="M -50 650 Q 250 500 500 600 T 1000 450 T 1300 500" stroke="#E2984A" stroke-width="2" stroke-dasharray="2 10" fill="none" stroke-linecap="round"/>
+    <path d="M -50 200 Q 300 350 600 150 T 1300 250" stroke="#F3EEE3" stroke-width="1.5" stroke-dasharray="2 10" fill="none" stroke-linecap="round"/>
+    <circle cx="500" cy="600" r="4" fill="#E2984A"/>
+    <circle cx="600" cy="150" r="4" fill="#F3EEE3"/>
+    <circle cx="1000" cy="450" r="4" fill="#E2984A"/>
+  </svg>
+
+  <div class="relative max-w-6xl mx-auto px-5 sm:px-8 w-full grid md:grid-cols-[auto_1fr] gap-10 items-center">
+    <div class="max-w-2xl">
+      <p class="font-mono text-xs sm:text-sm tracking-[0.3em] text-amber mb-5">PORTFOLIO — สายมนุษยศาสตร์ / ภาษาต่างประเทศ</p>
+
+      <h1 class="font-serifthai font-bold text-4xl sm:text-6xl leading-tight mb-4">
+        นายสุพศิน<br>นิยมกุล
+      </h1>
+
+      <!-- คำทักทายสลับภาษา ควบคุมด้วย JavaScript ด้านล่าง -->
+      <div id="greeting" class="h-8 mb-6 font-sansthai text-lg sm:text-xl text-parchment/80"></div>
+
+      <p class="font-serifthai italic text-xl sm:text-2xl text-parchment/90 mb-8">
+        “Connecting Cultures, Bridging Minds”
+      </p>
+
+      <a href="#projects" class="inline-flex items-center gap-2 bg-amber text-inkdark font-sansthai font-semibold px-7 py-3.5 rounded-full hover:bg-parchment transition-colors">
+        ดูผลงานของผม
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+  <a href="#about" aria-label="เลื่อนลงเพื่อดูส่วนถัดไป" class="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-parchment/60 text-xs font-mono">
+    <span>SCROLL</span>
+    <span class="text-lg">↓</span>
+  </a>
+</section>
+
+<!-- ============================================================
+     SECTION: ABOUT ME — แนะนำตัว
+     ============================================================ -->
+<section id="about" class="py-24 sm:py-32 bg-parchment">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 grid md:grid-cols-[340px_1fr] gap-12 md:gap-16 items-start">
+
+    <!-- ตราประทับพาสปอร์ตประดับ (CSS ล้วน ไม่ใช้รูปภาพ) -->
+    <div class="reveal mx-auto md:mx-0 flex justify-center md:justify-start">
+      <div class="seal-stamp w-56 h-56 sm:w-64 sm:h-64 rounded-full border-[3px] border-dashed border-ink/60 flex flex-col items-center justify-center text-center p-6 -rotate-6">
+        <span class="font-mono text-[10px] tracking-[0.3em] text-sage mb-2">HUMANITIES · SINCE 2011</span>
+        <span class="font-serifthai font-bold text-3xl text-ink leading-none mb-2">ส.น.</span>
+        <span class="font-mono text-[10px] tracking-[0.3em] text-terracotta">มัธยมศึกษาปีที่ 3</span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p class="font-mono text-xs tracking-[0.3em] text-sage mb-4">01 — ABOUT ME</p>
+      <h2 class="font-serifthai font-bold text-3xl sm:text-4xl text-ink mb-6">เกี่ยวกับผม</h2>
+
+      <p class="text-lg leading-relaxed mb-5 text-textink/90">
+        ผมชื่อสุพศิน นิยมกุล ปัจจุบันกำลังศึกษาอยู่ชั้นมัธยมศึกษาปีที่ 3
+        ผมหลงใหลในภาษาและวัฒนธรรมมาตั้งแต่เด็ก เพราะเชื่อว่าภาษาไม่ใช่แค่เครื่องมือสื่อสาร
+        แต่เป็นประตูที่พาเราไปทำความเข้าใจผู้คนและโลกที่แตกต่างจากที่เราคุ้นเคย
+      </p>
+      <p class="text-lg leading-relaxed mb-5 text-textink/90">
+        ตลอดสามปีที่ผ่านมา ผมตั้งใจฝึกฝนภาษาอังกฤษและภาษาต่างประเทศที่สาม
+        เข้าร่วมกิจกรรมค่ายภาษา ชมรมโต้วาที และงานเขียนต่างๆ
+        เพราะอยากเป็นคนที่เชื่อมโยงผู้คนจากหลากหลายวัฒนธรรมเข้าด้วยกันได้จริง
+      </p>
+      <p class="text-lg leading-relaxed text-textink/90">
+        เป้าหมายของผมคือการเข้าศึกษาต่อในแผนการเรียนภาษาต่างประเทศ ชั้นมัธยมศึกษาปีที่ 4
+        เพื่อพัฒนาทักษะด้านภาษาและมนุษยศาสตร์อย่างจริงจัง
+        และต่อยอดสู่เส้นทางอาชีพที่เกี่ยวข้องกับการสื่อสารระหว่างวัฒนธรรมในอนาคต
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: SKILLS — เส้นทางการเรียนรู้ (Journey Path)
+     ============================================================ -->
+<section id="skills" class="py-24 sm:py-32 bg-parchdark/40">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="reveal mb-16 max-w-2xl">
+      <p class="font-mono text-xs tracking-[0.3em] text-sage mb-4">02 — SKILLS</p>
+      <h2 class="font-serifthai font-bold text-3xl sm:text-4xl text-ink mb-4">เส้นทางการเรียนรู้ของผม</h2>
+      <p class="text-lg text-textink/80">ทักษะแต่ละอย่างคือจุดแวะพักบนเส้นทางสู่การเป็นนักสื่อสารข้ามวัฒนธรรม</p>
+    </div>
+
+    <!-- แถบสีอ้างอิงหมวดหมู่ -->
+    <div class="reveal flex flex-wrap gap-4 mb-10 font-mono text-xs tracking-wide">
+      <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-ink"></span>วิชาการ</span>
+      <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber"></span>ปฏิบัติการ</span>
+      <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sage"></span>Soft Skills</span>
+    </div>
+
+    <!-- เส้นทางแนวนอน เลื่อนดูได้บนมือถือ -->
+    <div class="reveal overflow-x-auto pb-6 -mx-5 px-5 sm:mx-0 sm:px-0">
+      <div class="relative min-w-[820px] sm:min-w-0">
+        <div class="journey-line absolute top-2 left-0 right-0"></div>
+        <div class="grid grid-cols-7 gap-4">
+
+          <!-- วิชาการ -->
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-ink mb-4"></div>
+            <p class="font-sansthai font-semibold text-sm mb-1">ภาษาอังกฤษขั้นสูง</p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+            </div>
+            <span class="sr-only">ระดับ 4 จาก 5</span>
+          </div>
+
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-ink mb-4"></div>
+            <!-- แก้ไข: เปลี่ยนเป็นภาษาที่สามที่เรียนจริง เช่น จีน ญี่ปุ่น ฝรั่งเศส -->
+            <p class="font-sansthai font-semibold text-sm mb-1">ภาษาต่างประเทศที่ 3</p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span><span class="level-dot"></span>
+            </div>
+            <span class="sr-only">ระดับ 3 จาก 5</span>
+          </div>
+
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-ink mb-4"></div>
+            <p class="font-sansthai font-semibold text-sm mb-1">วัฒนธรรมและสังคมศาสตร์</p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+            </div>
+            <span class="sr-only">ระดับ 4 จาก 5</span>
+          </div>
+
+          <!-- ปฏิบัติการ -->
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-amber mb-4"></div>
+            <p class="font-sansthai font-semibold text-sm mb-1">การพูดและนำเสนอ</p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+            </div>
+            <span class="sr-only">ระดับ 4 จาก 5</span>
+          </div>
+
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-amber mb-4"></div>
+            <p class="font-sansthai font-semibold text-sm mb-1">สร้างคอนเทนต์ดิจิทัล<br><span class="text-xs font-normal text-textink/60">Canva / CapCut</span></p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+            </div>
+            <span class="sr-only">ระดับ 4 จาก 5</span>
+          </div>
+
+          <!-- Soft skills -->
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-sage mb-4"></div>
+            <p class="font-sansthai font-semibold text-sm mb-1">Cultural Intelligence</p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span>
+            </div>
+            <span class="sr-only">ระดับ 5 จาก 5</span>
+          </div>
+
+          <div class="flex flex-col items-start">
+            <div class="journey-node-dot bg-sage mb-4"></div>
+            <p class="font-sansthai font-semibold text-sm mb-1">Critical Thinking<br><span class="text-xs font-normal text-textink/60">การวิเคราะห์มนุษย์</span></p>
+            <div class="flex gap-1 mb-1" aria-hidden="true">
+              <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+            </div>
+            <span class="sr-only">ระดับ 4 จาก 5</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: PROJECTS / ACTIVITIES — หนังสือเดินทางแห่งผลงาน
+     ============================================================ -->
+<section id="projects" class="py-24 sm:py-32 bg-parchment">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="reveal mb-16 max-w-2xl">
+      <p class="font-mono text-xs tracking-[0.3em] text-sage mb-4">03 — PROJECTS & ACTIVITIES</p>
+      <h2 class="font-serifthai font-bold text-3xl sm:text-4xl text-ink mb-4">หนังสือเดินทางแห่งผลงาน</h2>
+      <p class="text-lg text-textink/80">แต่ละหน้าคือประสบการณ์หนึ่งบทที่หล่อหลอมให้ผมกลายเป็นคนที่ชอบเชื่อมโยงผู้คนและวัฒนธรรม</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Project 1 -->
+      <article class="reveal project-card tilt-l bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-ink text-parchment"><span class="stamp-code">EN · GAME</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">บอร์ดเกมเพื่อการเรียนรู้ภาษาอังกฤษ</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">ออกแบบและพัฒนาบอร์ดเกมคำศัพท์ ใช้ในกิจกรรมวิชาภาษาอังกฤษของโรงเรียน</p>
+        </div>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="reveal project-card tilt-r bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-sage text-parchment"><span class="stamp-code">TEST</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">สอบวัดระดับความสามารถทางภาษา</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">เข้าร่วมทดสอบวัดระดับภาษาอังกฤษตามกรอบมาตรฐานสากล เพื่อวัดและพัฒนาความสามารถของตนเอง</p>
+        </div>
+      </article>
+
+      <!-- Project 3 -->
+      <article class="reveal project-card tilt-l bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-amber text-inkdark"><span class="stamp-code">CAMP</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">ค่ายอบรมภาษาและวัฒนธรรมนานาชาติ</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">ร่วมกิจกรรมค่ายแลกเปลี่ยนกับเพื่อนต่างโรงเรียน ฝึกสื่อสารและทำงานร่วมกับผู้อื่น</p>
+        </div>
+      </article>
+
+      <!-- Project 4 -->
+      <article class="reveal project-card tilt-r bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-terracotta text-parchment"><span class="stamp-code">HELP</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">โครงการ “ล่ามน้อย” ช่วยงานโรงเรียน</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">อาสาช่วยแปลและต้อนรับแขกต่างชาติในกิจกรรมของโรงเรียน</p>
+        </div>
+      </article>
+
+      <!-- Project 5 -->
+      <article class="reveal project-card tilt-l bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-ink text-parchment"><span class="stamp-code">FILM</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">สารคดีสั้น: วัฒนธรรมท้องถิ่นของฉัน</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">ผลิตคลิปวิดีโอสารคดีสั้นบอกเล่าวิถีชีวิตและวัฒนธรรมในชุมชนของตนเอง</p>
+        </div>
+      </article>
+
+      <!-- Project 6 -->
+      <article class="reveal project-card tilt-r bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-sage text-parchment"><span class="stamp-code">DEBATE</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">ชมรมโต้วาทีภาษาอังกฤษ</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">ฝึกฝนการคิดเชิงวิพากษ์และการโต้แย้งอย่างมีเหตุผลผ่านการโต้วาทีภาษาอังกฤษ</p>
+        </div>
+      </article>
+
+      <!-- Project 7 -->
+      <article class="reveal project-card tilt-l bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-amber text-inkdark"><span class="stamp-code">ESSAY</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">เรียงความภาษาอังกฤษระดับเขตพื้นที่</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">ส่งผลงานเขียนเรียงความภาษาอังกฤษเข้าประกวดในระดับเขตพื้นที่การศึกษา</p>
+        </div>
+      </article>
+
+      <!-- Project 8 -->
+      <article class="reveal project-card tilt-r bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-terracotta text-parchment"><span class="stamp-code">GLOBAL</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">แลกเปลี่ยนวัฒนธรรมออนไลน์</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">พูดคุยแลกเปลี่ยนมุมมองกับนักเรียนต่างประเทศผ่านโปรแกรมออนไลน์รายสัปดาห์</p>
+        </div>
+      </article>
+
+      <!-- Project 9 -->
+      <article class="reveal project-card tilt-l bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-ink text-parchment"><span class="stamp-code">STAGE</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">การแสดงละครเวทีภาษาอังกฤษ</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">รับบทนำในละครเวทีภาษาอังกฤษของโรงเรียน ฝึกทั้งการออกเสียงและความมั่นใจบนเวที</p>
+        </div>
+      </article>
+
+      <!-- Project 10 -->
+      <article class="reveal project-card tilt-r bg-white passport-border rounded-lg overflow-hidden">
+        <div class="stamp-panel bg-sage text-parchment"><span class="stamp-code">BLOG</span></div>
+        <div class="p-6">
+          <h3 class="font-serifthai font-semibold text-lg mb-2">บล็อกส่วนตัว “เรียนภาษาแบบสนุก”</h3>
+          <p class="text-sm text-textink/70 leading-relaxed">เขียนบทความแบ่งปันเทคนิคการเรียนภาษาให้เพื่อนๆ ที่สนใจเรื่องเดียวกัน</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION: CONTACT & FOOTER — การติดต่อและส่วนท้าย
+     ============================================================ -->
+<footer id="contact" class="bg-inkdark text-parchment py-20">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-2xl mb-14">
+      <p class="font-mono text-xs tracking-[0.3em] text-amber mb-4">04 — CONTACT</p>
+      <h2 class="font-serifthai font-bold text-3xl sm:text-4xl mb-5">ติดต่อผม</h2>
+      <p class="text-parchment/70 text-lg leading-relaxed">
+        หากคณะกรรมการหรือคุณครูมีข้อสงสัยเพิ่มเติมเกี่ยวกับผลงานหรือประวัติของผม
+        ยินดีให้ข้อมูลเพิ่มเติมทุกช่องทางด้านล่างนี้ครับ
+      </p>
+    </div>
+
+    <div class="reveal grid sm:grid-cols-2 gap-8 mb-16">
+      <a href="mailto:suphasin.niy@pccpl.ac.th" class="group flex items-center gap-4 border-b border-parchment/20 pb-4 hover:border-amber transition-colors">
+        <span class="font-mono text-amber text-sm">EMAIL</span>
+        <span class="text-lg group-hover:text-amber transition-colors">suphasin.niy@pccpl.ac.th</span>
+      </a>
+      <a href="tel:0948084969" class="group flex items-center gap-4 border-b border-parchment/20 pb-4 hover:border-amber transition-colors">
+        <span class="font-mono text-amber text-sm">PHONE</span>
+        <span class="text-lg group-hover:text-amber transition-colors">094-808-4969</span>
+      </a>
+    </div>
+
+    <div class="pt-8 border-t border-parchment/15 text-sm text-parchment/50 font-mono">
+      © 2026 สุพศิน นิยมกุล — My Linguistic Journey
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT: Mobile Menu / Smooth Scroll / Greeting Cycler / Scroll Reveal
+     ============================================================ -->
+<script>
+  // ----- Mobile Hamburger Menu Toggle -----
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // ปิดเมนูมือถือทันทีที่คลิกลิงก์ใดๆ ในเมนู
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ----- Greeting Word Cycler (สวัสดี / Hello / Bonjour) -----
+  // แก้ไข: เปลี่ยนคำที่ 3 เป็นภาษาต่างประเทศที่ 3 ที่เรียนจริง เช่น 你好 (จีน), こんにちは (ญี่ปุ่น)
+  const greetings = ['สวัสดีครับ', 'Hello', 'Bonjour'];
+  const greetingEl = document.getElementById('greeting');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let greetingIndex = 0;
+
+  function showGreeting(index) {
+    greetingEl.innerHTML = '<span class="greeting-word">' + greetings[index] + '</span>';
+    requestAnimationFrame(() => {
+      const word = greetingEl.querySelector('.greeting-word');
+      if (word) word.classList.add('show');
+    });
+  }
+
+  showGreeting(greetingIndex);
+  if (!prefersReducedMotion) {
+    setInterval(() => {
+      greetingIndex = (greetingIndex + 1) % greetings.length;
+      showGreeting(greetingIndex);
+    }, 2400);
+  }
+
+  // ----- Scroll Reveal ด้วย IntersectionObserver -----
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    // ถ้าเบราว์เซอร์ไม่รองรับ หรือผู้ใช้ตั้งค่า reduce motion ให้แสดงผลทันที
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
